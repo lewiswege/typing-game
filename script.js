@@ -28,3 +28,26 @@ let startTime = Date.now();
 const quoteElement = document.getElementById('quote');
 const messageElement = document.getElementById('message');
 const typedValueElement = document.getElementById('typed-value');
+
+//adding the start logic
+document.getElementById('start').addEventListener('click', () => {
+    const quoteIndex = Math.floor(Math.random() * quotes.length);
+    const quote = quotes[quoteIndex];
+    words = quote.split(' ');
+    wordIndex = 0;
+
+    //creating the quote html
+    const spanWords = words.map(function(word) { return `<span>${word} </span>`});
+    quoteElement.innerHTML = spanWords.join('');
+    quoteElement.childNodes[0].className = 'highlight';
+
+    //clearing any prior messages
+    messageElement.innerText = '';
+
+    //set up the textbox and clear
+    typedValueElement.value = '';
+    typedValueElement.focus();
+
+    //set the time
+    startTime = new Date().getTime();
+});
