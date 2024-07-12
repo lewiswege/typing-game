@@ -51,3 +51,32 @@ document.getElementById('start').addEventListener('click', () => {
     //set the time
     startTime = new Date().getTime();
 });
+
+//event listener for typing
+typedValueElement.addEventListener('input', () => {
+    const currentWord = words[wordIndex];
+    const typedValue = typedValueElement.value;
+
+    if (typedValue === currentWord && wordIndex === words.length - 1) {
+        //end of quote
+        const elapsedTime = new Date().getTime() - startTime;
+        const message = `CONGRATULATIONS! You finished in ${elapsedTime / 1000} seconds.`;
+        messageElement.innerText = message;
+    } else if (typedValue.endsWith(' ') && typedValue.trim() === currentWord) {
+        //end of word
+        typedValueElement.value = '';
+        wordIndex++;
+        //reset the class name for all elements in quote
+        for (const wordElement of quoteElement.childNodes) {
+            wordElement.className = '';
+        }
+        //highlight the new word
+        quoteElement.childNodes[wordIndex].className = 'highlight';
+    } else if (currentWord.startsWith(typedValue)) {
+        //currently correct
+        typedValueElement.className = '';
+    } else {
+        //incorrect
+        typedValueElement.className = 'error';
+    }
+});
